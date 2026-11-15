@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TuitionDesk</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1D2540">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Figtree:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#F6F5F1;--card:#FFFFFF;--ink:#1D2540;--mute:#6A7088;--line:#E3E2DB;--accent:#1D2540;--onaccent:#FFFFFF;--hi:#F4B223;--ok:#1E8E5A;--okbg:#DDF3E8;--bad:#CC3F3F;--badbg:#FBE2E2;--wa:#1FA855;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12162A;--card:#1B2140;--ink:#ECEEF8;--mute:#9AA0BC;--line:#2B3257;--accent:#F4B223;--onaccent:#12162A;--hi:#F4B223;--ok:#5FD39A;--okbg:#17372B;--bad:#FF8A8A;--badbg:#3F1D25;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#12162A;--card:#1B2140;--ink:#ECEEF8;--mute:#9AA0BC;--line:#2B3257;--accent:#F4B223;--onaccent:#12162A;--ok:#5FD39A;--okbg:#17372B;--bad:#FF8A8A;--badbg:#3F1D25;color-scheme:dark}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.45 Figtree,system-ui,sans-serif;padding-bottom:84px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+h1,h2,h3{font-family:"Bricolage Grotesque",Figtree,sans-serif;margin:0;letter-spacing:-.01em}
+header{padding:18px 18px 6px;max-width:560px;margin:0 auto}
+header h1{font-size:24px}header p{margin:2px 0 0;color:var(--mute);font-size:13px}
+main{max-width:560px;margin:0 auto;padding:10px 16px}
+.sum{background:var(--accent);color:var(--onaccent);border-radius:16px;padding:16px;margin-bottom:12px}
+.sum b{font:700 28px "Bricolage Grotesque",sans-serif;display:block}.sum span{opacity:.8;font-size:13px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:10px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.name{font-weight:600}.sub{color:var(--mute);font-size:13px}
+.chip{font-size:12px;font-weight:600;padding:3px 9px;border-radius:99px;background:var(--badbg);color:var(--bad);white-space:nowrap}
+.chip.ok{background:var(--okbg);color:var(--ok)}
+.btn{appearance:none;border:0;border-radius:11px;padding:11px 14px;font:600 14px Figtree,sans-serif;cursor:pointer;background:var(--accent);color:var(--onaccent);text-decoration:none;display:inline-block;text-align:center}
+.btn.wa{background:var(--wa);color:#fff}.btn.full{width:100%;margin:4px 0 12px}.btn.sm{padding:7px 11px;font-size:13px}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.btn:focus-visible,select:focus-visible{outline:3px solid var(--hi);outline-offset:2px}
+.pa{display:flex;gap:6px}.pa button{width:42px;height:38px;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--mute);font:600 15px Figtree;cursor:pointer}
+.pa button.p.on{background:var(--ok);border-color:var(--ok);color:#fff}.pa button.a.on{background:var(--bad);border-color:var(--bad);color:#fff}
+select{width:100%;padding:11px;border-radius:11px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:500 15px Figtree;margin-bottom:12px}
+.bar{height:10px;border-radius:99px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;background:var(--ok);border-radius:99px}
+.bar.bad i{background:var(--bad)}
+.chart{display:flex;align-items:flex-end;gap:8px;height:140px;padding-top:8px}
+.chart div{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;font-size:12px;color:var(--mute)}
+.chart i{display:block;width:100%;background:var(--line);border-radius:6px 6px 0 0;margin:3px 0}.chart div.last i{background:var(--hi)}
+input,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:400 15px Figtree,sans-serif;margin-top:3px;display:block}label{display:block;margin-bottom:8px}input:focus-visible,textarea:focus-visible{outline:3px solid var(--hi);outline-offset:1px}
+.big{font:700 34px "Bricolage Grotesque",sans-serif}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+h2{font-size:17px;margin:14px 0 8px}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));z-index:20}
+nav button{flex:1;border:0;background:transparent;color:var(--mute);font:600 11px Figtree;padding:10px 2px;border-radius:10px;cursor:pointer}
+nav button[aria-selected=true]{color:var(--onaccent);background:var(--accent)}
+nav button:focus-visible{outline:3px solid var(--hi)}
+#toast{position:fixed;left:16px;right:16px;bottom:calc(76px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:12px 14px;border-radius:12px;font-weight:500;opacity:0;transform:translateY(8px);transition:.2s;pointer-events:none;z-index:30;max-width:528px;margin:auto}
+#toast.show{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){#toast{transition:none}}
+</style>
+</head>
+<body>
+<header><h1>TuitionDesk</h1><p id="cen">Sunrise Tuition Centre</p></header>
+<main id="app"></main>
+<div id="toast" role="status"></div>
+<nav role="tablist" id="nav"></nav>
+<script>
+const SAMPLE=[
+{id:0,n:"Aarav Sharma",cls:"Class 9",wa:"9876500001",fee:1500,late:12,att:92,sc:[62,68,71,66,74,78]},
+{id:1,n:"Diya Patel",cls:"Class 9",wa:"9876500002",fee:1500,late:0,att:96,sc:[81,79,85,88,84,90]},
+{id:2,n:"Rohan Verma",cls:"Class 9",wa:"9876500003",fee:1200,late:5,att:78,sc:[55,58,52,60,63,61]},
+{id:3,n:"Ananya Singh",cls:"Class 9",wa:"9876500004",fee:1500,late:21,att:85,sc:[70,72,69,75,77,80]},
+{id:4,n:"Kabir Khan",cls:"Class 9",wa:"9876500005",fee:1200,late:0,att:88,sc:[48,53,57,55,62,66]},
+{id:5,n:"Isha Gupta",cls:"Class 9",wa:"9876500006",fee:1500,late:3,att:98,sc:[90,88,92,91,94,95]}];
+const KEY="tuitiondesk-v1";
+let S=[],DB=null,status="loading",oldLocal=[],last={};
+try{const o=JSON.parse(localStorage.getItem(KEY));if(Array.isArray(o))oldLocal=o.filter(s=>!s.sample)}catch(e){}
+const MSG={loading:"Loading students…",slow:"Still trying to reach the database. Check your internet connection.",nodb:"The shared database isn’t available here. Open this page while signed in to claude.ai as the tuition owner.",error:"You don’t have access to this data. Sign in as the tuition owner. Parents get their own login in the next step."};
+const fail2=()=>toast("Could not save. Only the tuition owner can change this data.");
+function save(){if(!DB){try{localStorage.setItem(LK,JSON.stringify(S))}catch(e){}return}const ids=new Set(S.map(s=>String(s.id)));
+S.forEach(s=>{const j=JSON.stringify(s);if(last[s.id]!==j){last[s.id]=j;DB.doc("students/"+s.id).set(JSON.parse(j)).catch(fail2)}});
+Object.keys(last).forEach(k=>{if(!ids.has(k)){delete last[k];DB.doc("students/"+k).delete().catch(fail2)}})}
+function migrate(){oldLocal.forEach(o=>{const id=Math.max(-1,...S.map(s=>s.id))+1;S.push({...o,id});pres[id]="P"});oldLocal=[];try{localStorage.removeItem(KEY)}catch(e){}save();toast("Moved to the shared database");render()}
+function loadSample(){SAMPLE.forEach(s=>{S.push({...s,paid:s.late===0,batch:"Class 9 Maths, 5 PM",sample:true});pres[s.id]="P"});save();render()}
+const LK="tuitiondesk-local",CK="tuitiondesk-cfg";
+let CFG={centre:"Sunrise Tuition Centre",upi:"",qr:""};
+try{const c=JSON.parse(localStorage.getItem(CK));if(c&&typeof c==="object")CFG={...CFG,...c}}catch(e){}
+function saveCfg(quiet){if(!CFG.centre.trim())CFG.centre="Sunrise Tuition Centre";try{localStorage.setItem(CK,JSON.stringify(CFG));if(!quiet)toast("Settings saved")}catch(e){toast("Could not save settings. The QR image may be too large.")}render()}
+function pickQR(f){if(!f)return;const r=new FileReader();r.onload=()=>{const i=new Image();i.onload=()=>{const k=Math.min(1,700/Math.max(i.width,i.height)),c=document.createElement("canvas");c.width=Math.round(i.width*k);c.height=Math.round(i.height*k);const x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.drawImage(i,0,0,c.width,c.height);CFG.qr=c.toDataURL("image/jpeg",.9);saveCfg(false)};i.onerror=()=>toast("That file is not an image");i.src=r.result};r.readAsDataURL(f)}
+async function shareQR(id){const s=S.find(x=>x.id===id);if(!CFG.qr){toast("Add your payment QR in Students tab, Settings");return}
+try{const b=await(await fetch(CFG.qr)).blob(),f=new File([b],"payment-qr.jpg",{type:b.type||"image/jpeg"});
+if(navigator.canShare&&navigator.canShare({files:[f]}))await navigator.share({files:[f],text:fmsg(s)});else toast("This phone cannot share images from the app")}catch(e){if(!e||e.name!=="AbortError")toast("Could not open sharing. Try again.")}}
+function local(){try{const o=JSON.parse(localStorage.getItem(LK));if(Array.isArray(o))S=o}catch(e){}S.forEach(s=>{if(!(s.id in pres))pres[s.id]="P"});status="ready";render()}
+function backup(){const b=new Blob([JSON.stringify({students:S,enquiries:E},null,1)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="tuitiondesk-backup-"+new Date().toISOString().slice(0,10)+".json";document.body.appendChild(a);a.click();a.remove();toast("Backup downloaded")}
+function restore(f){if(!f)return;const r=new FileReader();r.onload=()=>{try{const o=JSON.parse(r.result),st=Array.isArray(o)?o:o.students;if(!Array.isArray(st))throw 0;S=st;S.forEach(s=>pres[s.id]="P");if(!Array.isArray(o)&&Array.isArray(o.enquiries)){E=o.enquiries;saveEnq()}save();toast("Backup restored");render()}catch(e){toast("That file is not a TuitionDesk backup")}};r.readAsText(f)}
+(async()=>{await new Promise(r=>setTimeout(r,0));try{DB=await claude.use("db")}catch(e){DB=null}
+if(!DB){local();return}
+const t=setTimeout(()=>{status="slow";render()},10000);
+DB.collection("students").onSnapshot(snap=>{clearTimeout(t);S=snap.docs.map(d=>JSON.parse(JSON.stringify(d.data())));S.sort((a,b)=>a.id-b.id);last={};S.forEach(s=>{last[s.id]=JSON.stringify(s);if(!(s.id in pres))pres[s.id]="P"});status="ready";render()},()=>{clearTimeout(t);status="error";render()})})();
+const lateDays=()=>Math.max(0,new Date().getDate()-5);
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const un=t=>String(t).replace(/&quot;/g,'"').replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&amp;/g,"&");
+const batches=()=>[...new Set(S.map(s=>s.batch))];
+let bt="";const bnow=()=>{const b=batches();return b.includes(bt)?bt:b[0]};
+const BS=()=>S.filter(s=>s.batch===bnow());
+const cur=i=>S.find(s=>s.id===i)||S[0];
+const HW=["Maths: Exercise 7.2, questions 1–8","Science: Draw and label the plant cell","English: Write a 10-line paragraph on your best friend"];
+const ENQ=[{n:"Meera Nair",c:"Class 8",by:"Diya Patel",d:"Today"},{n:"Yash Jain",c:"Class 10",by:"Isha Gupta",d:"Yesterday"},{n:"Sana Sheikh",c:"Class 9",by:"Kabir Khan",d:"2 days ago"}];
+const inr=n=>"₹"+n.toLocaleString("en-IN");
+const wa=(p,t)=>`https://wa.me/91${p}?text=${encodeURIComponent(t)}`;
+let tab=0,reminded=new Set(),pres={},saved=null,ti=0,pi=0;
+S.forEach(s=>pres[s.id]="P");
+const rank=s=>S.filter(x=>x.batch===s.batch).sort((a,b)=>(b.sc[5]||0)-(a.sc[5]||0)).findIndex(x=>x.id===s.id)+1;
+const bsize=s=>S.filter(x=>x.batch===s.batch).length;
+function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("show");clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove("show"),2600)}
+const names=["Fees","Attendance","Tests","Owner","Students"];
+function nav(){document.getElementById("nav").innerHTML=names.map((n,i)=>`<button role="tab" aria-selected="${i===tab}" onclick="go(${i})">${n}</button>`).join("")}
+function go(i){tab=i;render();window.scrollTo(0,0)}
+function opts(sel){return S.map(s=>`<option value="${s.id}" ${s.id===sel?"selected":""}>${s.n}</option>`).join("")}
+const views=[
+()=>{if(fsec==="collect")return fsw()+collectView();const p=S.filter(s=>!s.paid),tot=p.reduce((a,s)=>a+s.fee,0);
+return fsw()+`<div class="sum"><b>${inr(tot)}</b><span>pending from ${p.length} students</span></div>
+`+
+p.sort((a,b)=>b.late-a.late).map(s=>`<div class="card row"><div><div class="name">${s.n}</div><div class="sub">${s.cls} · ${inr(s.fee)}</div><span class="chip">${s.late>0?s.late+" days late":"Due on the 5th"}</span></div>
+<div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">${reminded.has(s.id)?`<span class="chip ok">Reminded</span>`:`<a class="btn wa sm" target="_blank" rel="noopener" onclick="reminded.add(${s.id});setTimeout(render,50)" href="${wa(s.wa,fmsg(s))}">Remind</a>`}${CFG.qr?`<button class="btn ghost sm" onclick="shareQR(${s.id})">Send QR</button>`:""}</div></div>`).join("")},
+()=>{const ab=BS().filter(s=>pres[s.id]==="A");
+let h=`<select aria-label="Batch" onchange="bt=this.value;saved=null;render()">${batches().map(b=>`<option ${b===bnow()?"selected":""}>${b}</option>`).join("")}</select>`+BS().map(s=>`<div class="card row"><div class="name">${s.n}</div><div class="pa"><button class="p ${pres[s.id]==="P"?"on":""}" aria-label="Present" onclick="mark(${s.id},'P')">P</button><button class="a ${pres[s.id]==="A"?"on":""}" aria-label="Absent" onclick="mark(${s.id},'A')">A</button></div></div>`).join("");
+h+=`<button class="btn full" onclick="saveAtt()">Save attendance${ab.length?` and alert ${ab.length} parent${ab.length>1?"s":""}`:""}</button>`;
+if(saved)h+=saved.length?`<h2>Absent alerts ready</h2>`+saved.map(s=>`<div class="card row"><div><div class="name">${s.n}</div><div class="sub">Absent today</div></div><a class="btn wa sm" target="_blank" rel="noopener" href="${wa(s.wa,`नमस्ते, ${un(s.n)} आज ट्यूशन में अनुपस्थित था। – ${CFG.centre}`)}">Send alert</a></div>`).join(""):`<div class="card"><span class="chip ok">Saved</span> Everyone was present today.</div>`;
+return h},
+()=>{const s=cur(ti),mx=100;if(!s.sc.length)return `<select aria-label="Student" onchange="ti=+this.value;render()">${opts(ti)}</select><div class="card">No test marks for ${s.n} yet.</div>`;
+return `<select aria-label="Student" onchange="ti=+this.value;render()">${opts(ti)}</select>
+<div class="grid"><div class="card"><div class="sub">Latest score</div><div class="big">${s.sc[5]}/100</div></div><div class="card"><div class="sub">Rank in batch</div><div class="big">${rank(s)} of ${bsize(s)}</div></div></div>
+<h2>Last 6 tests</h2><div class="card"><div class="chart">${s.sc.map((v,i)=>`<div class="${i===5?"last":""}">${v}<i style="height:${v/mx*100}%"></i>T${i+1}</div>`).join("")}</div></div>
+<a class="btn wa full" target="_blank" rel="noopener" href="${wa(s.wa,`साप्ताहिक रिपोर्ट: ${un(s.n)} ने ${s.sc[5]}/100 अंक पाए (बैच में रैंक ${rank(s)}/${bsize(s)})। पिछला टेस्ट: ${s.sc[4]}। – ${CFG.centre}`)}">Share report on WhatsApp</a>`},
+()=>{const col=S.filter(s=>s.paid).reduce((a,s)=>a+s.fee,0),pen=S.filter(s=>!s.paid).reduce((a,s)=>a+s.fee,0),pc=col+pen?Math.round(col/(col+pen)*100):0;
+return `<div class="card"><div class="sub">Fees collected vs pending</div><div class="row" style="margin:4px 0 8px"><div><div class="big" style="color:var(--ok)">${inr(col)}</div><div class="sub">collected</div></div><div style="text-align:right"><div class="big" style="color:var(--bad)">${inr(pen)}</div><div class="sub">pending</div></div></div><div class="bar"><i style="width:${pc}%"></i></div><div class="sub" style="margin-top:6px">${pc}% collected this month</div></div>
+<div class="grid"><div class="card"><div class="sub">Students</div><div class="big">${S.length}</div></div><div class="card"><div class="sub">Fee unpaid</div><div class="big">${S.filter(s=>!s.paid).length}</div></div></div>
+`+enqSection()},stuView];
+let q=[],qTotal=0;
+const fmsg=s=>`नमस्ते, ${un(s.n)} की ${inr(s.fee)} फीस बाकी है। कृपया जल्दी जमा करें।${CFG.upi?" UPI ID: "+CFG.upi+"।":""} – ${CFG.centre}`;
+function qCard(){if(!q.length){const n=S.filter(s=>!s.paid&&!reminded.has(s.id)).length;return n?`<button class="btn wa full" onclick="remindAll()">Remind all (${n}) on WhatsApp</button>`:""}
+const s=cur(q[0]);return `<div class="card"><div class="sub">Reminder ${qTotal-q.length+1} of ${qTotal}</div><div class="name" style="margin:2px 0 8px">${s.n}</div><a class="btn wa full" target="_blank" rel="noopener" onclick="nextQ()" href="${wa(s.wa,fmsg(s))}">Open WhatsApp for ${s.n}</a><button class="btn ghost sm" onclick="q=[];render()">Stop</button></div>`}
+function nextQ(){reminded.add(q.shift());if(!q.length)toast("All reminders opened");setTimeout(render,50)}
+function remindAll(){q=S.filter(s=>!s.paid&&!reminded.has(s.id)).map(s=>s.id);qTotal=q.length;render()}
+function mark(id,v){pres[id]=v;saved=null;render()}
+function saveAtt(){const day=new Date().toISOString().slice(0,10);BS().forEach(s=>{if(s.last===day)return;const d=s.days??(s.att==null?0:20),p=s.pdays??(s.att==null?0:Math.round(s.att*.2));s.days=d+1;s.pdays=p+(pres[s.id]==="P"?1:0);s.att=Math.round(s.pdays/s.days*100);s.last=day});saved=BS().filter(s=>pres[s.id]==="A");save();toast("Attendance saved");render()}
+let fd=null,err="",imp=false,del=null;
+const blank=()=>({n:"",cls:"",batch:"",wa:"",fee:""});
+function addS(o){const id=Math.max(-1,...S.map(s=>s.id))+1;S.push({id,paid:false,late:lateDays(),att:null,sc:[],...o});pres[id]="P"}
+const fail=m=>{err=m;render()};
+function saveStu(){const n=fd.n.trim(),w=String(fd.wa).replace(/\D/g,""),fee=+fd.fee;
+if(!n)return fail("Enter the student’s name.");if(w.length!==10)return fail("Enter the parent’s 10-digit WhatsApp number.");if(!(fee>0))return fail("Enter the monthly fee as a number.");
+const o={n:esc(n),cls:esc(fd.cls.trim()||"–"),batch:esc(fd.batch.trim()||"General"),wa:w,fee};
+if(fd.id!=null)Object.assign(S.find(s=>s.id===fd.id),o);else addS(o);
+fd=null;err="";save();toast("Student saved");render()}
+function editStu(id){const s=S.find(x=>x.id===id);fd={...s,n:un(s.n),cls:un(s.cls),batch:un(s.batch)};err="";imp=false;render()}
+let fsec="remind";
+const fsw=()=>`<div style="display:flex;gap:8px;margin-bottom:12px"><button class="btn sm ${fsec==="remind"?"":"ghost"}" style="flex:1" onclick="fsec='remind';render()">Remind</button><button class="btn sm ${fsec==="collect"?"":"ghost"}" style="flex:1" onclick="fsec='collect';render()">Collect fee</button></div>`;
+function collectView(){if(!S.length)return `<div class="card">No students yet. Add students on the Students tab.</div>`;
+const L=[...S].sort((a,b)=>(a.paid?1:0)-(b.paid?1:0)||a.n.localeCompare(b.n)),nu=L.filter(s=>!s.paid).length;
+return `<div class="sub" style="margin-bottom:8px">${nu} unpaid · ${L.length-nu} paid</div>`+L.map(s=>`<div class="card row"><div><div class="name">${s.n}</div><div class="sub">${s.cls} · ${inr(s.fee)}</div></div>${s.paid?`<div style="display:flex;gap:6px;align-items:center"><span class="chip ok">Paid</span><button class="btn ghost sm" onclick="toggPaid(${s.id})">Undo</button></div>`:`<button class="btn sm" onclick="toggPaid(${s.id})">Mark paid</button>`}</div>`).join("")}
+let E=[];try{const o=JSON.parse(localStorage.getItem("tuitiondesk-enq"));if(Array.isArray(o))E=o}catch(e){}
+let ef=null,eerr="",edel=null;
+function saveEnq(){try{localStorage.setItem("tuitiondesk-enq",JSON.stringify(E))}catch(e){toast("Could not save the enquiry")}}
+function addEnq(){const n=ef.n.trim();if(!n){eerr="Enter the child\u2019s name.";return render()}
+E.unshift({id:Date.now(),n:esc(n),c:esc(ef.c.trim()||"\u2013"),ph:String(ef.ph||"").replace(/\D/g,"").slice(-10),by:ef.by===""?null:+ef.by,st:"new",d:new Date().toISOString().slice(0,10)});ef=null;eerr="";saveEnq();toast("Enquiry added");render()}
+function setEnq(id,st){const e=E.find(x=>x.id===id);e.st=e.st===st?"new":st;saveEnq();render()}
+function delEnq(id){if(edel===id){E=E.filter(x=>x.id!==id);edel=null;saveEnq();toast("Enquiry deleted")}else{edel=id;toast("Tap Delete again to confirm")}render()}
+const ago=d=>{const n=Math.round((new Date(new Date().toISOString().slice(0,10))-new Date(d))/864e5);return n<=0?"Today":n===1?"Yesterday":n+" days ago"};
+function enqSection(){const j=E.filter(e=>e.st==="joined").length,nm=i=>{const s=S.find(x=>x.id===i);return s?s.n:"a student"},who=e=>e.by==null?"Walk-in / other":"referred by "+nm(e.by);
+let h=`<div class="row" style="margin:14px 0 8px"><h2 style="margin:0">Enquiries</h2><button class="btn sm" onclick="ef={n:'',c:'',ph:'',by:''};eerr='';render()">Add enquiry</button></div>`;
+if(ef)h+=`<div class="card"><h3>New enquiry</h3><label class="sub">Child\u2019s name<input value="${ef.n}" oninput="ef.n=this.value"></label><label class="sub">Class<input value="${ef.c}" oninput="ef.c=this.value"></label><label class="sub">Parent\u2019s WhatsApp (optional)<input type="tel" value="${ef.ph}" oninput="ef.ph=this.value"></label><label class="sub">Who referred?<select onchange="ef.by=this.value"><option value="">Walk-in / other</option>${S.map(s=>`<option value="${s.id}" ${String(ef.by)===String(s.id)?"selected":""}>${s.n}</option>`).join("")}</select></label>${eerr?`<div class="chip" style="margin:6px 0">${eerr}</div>`:""}<div style="display:flex;gap:8px;margin-top:8px"><button class="btn" onclick="addEnq()">Save enquiry</button><button class="btn ghost" onclick="ef=null;render()">Cancel</button></div></div>`;
+h+=`<div class="grid"><div class="card"><div class="sub">Enquiries</div><div class="big">${E.length}</div></div><div class="card"><div class="sub">Joined</div><div class="big">${j}</div></div></div>`;
+const by={};E.forEach(e=>{if(e.by!=null){const o=by[e.by]||(by[e.by]={t:0,j:0});o.t++;if(e.st==="joined")o.j++}});
+const top=Object.keys(by).sort((a,b)=>by[b].j-by[a].j||by[b].t-by[a].t);
+if(top.length)h+=`<h2>Referrals by student</h2><div class="card">${top.map(k=>`<div class="row" style="padding:4px 0"><span class="name">${nm(+k)}</span><span class="sub">${by[k].t} enquir${by[k].t===1?"y":"ies"} \u00b7 ${by[k].j} joined</span></div>`).join("")}</div>`;
+if(!E.length)return h+`<div class="card">No enquiries yet. Tap Add enquiry when someone asks about admission.</div>`;
+return h+`<h2>All enquiries</h2>`+E.map(e=>`<div class="card"><div class="row"><div><div class="name">${e.n}</div><div class="sub">${e.c} \u00b7 ${who(e)}</div></div><span class="chip ${e.st==="joined"?"ok":""}">${e.st==="joined"?"Joined":e.st==="notjoined"?"Not joined":"New"}</span></div><div class="sub" style="margin-top:2px">${ago(e.d)}</div><div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap"><button class="btn ghost sm" onclick="setEnq(${e.id},'joined')">${e.st==="joined"?"Undo joined":"Joined"}</button><button class="btn ghost sm" onclick="setEnq(${e.id},'notjoined')">${e.st==="notjoined"?"Undo":"Not joined"}</button>${e.ph?`<a class="btn wa sm" target="_blank" rel="noopener" href="${wa(e.ph,`\u0928\u092e\u0938\u094d\u0924\u0947, ${un(e.n)} \u0915\u0947 \u090f\u0921\u092e\u093f\u0936\u0928 \u0915\u0947 \u092c\u093e\u0930\u0947 \u092e\u0947\u0902 \u092c\u093e\u0924 \u0915\u0930\u0928\u0940 \u0925\u0940\u0964 \u2013 ${CFG.centre}`)}">WhatsApp</a>`:""}<button class="btn ghost sm" onclick="delEnq(${e.id})">${edel===e.id?"Confirm delete":"Delete"}</button></div></div>`).join("")}
+let rc=null;
+const rmsg=s=>`नमस्ते, ${un(s.n)} की ${inr(s.fee)} फीस (${new Date().toLocaleString("hi-IN",{month:"long",year:"numeric"})}) मिल गई है। रसीद नं. TD-${1040+s.id}। धन्यवाद! – ${CFG.centre}`;
+function rcCard(){const s=rc!=null&&S.find(x=>x.id===rc);if(!s)return "";
+return `<div class="card"><div class="sub">Fee marked paid</div><div class="name" style="margin:2px 0 8px">${s.n} · ${inr(s.fee)}</div><a class="btn wa full" target="_blank" rel="noopener" onclick="rc=null;setTimeout(render,50)" href="${wa(s.wa,rmsg(s))}">Send receipt on WhatsApp</a><button class="btn ghost sm" onclick="rc=null;render()">Skip</button></div>`}
+function toggPaid(id){const s=S.find(x=>x.id===id);s.paid=!s.paid;s.late=s.paid?0:lateDays();rc=s.paid?id:null;save();render()}
+function delStu(id){if(del===id){S=S.filter(s=>s.id!==id);del=null;save();toast("Student deleted")}else{del=id;toast("Tap Delete again to confirm")}render()}
+function clearSample(){S=S.filter(s=>!s.sample);save();toast("Sample students removed");render()}
+function doImport(){const L=document.getElementById("csv").value.split("\n").map(x=>x.trim()).filter(Boolean);let ok=0,bad=0;
+L.forEach(l=>{const[a,b,c,d,e]=l.split(/[,\t]/).map(x=>x.trim());const w=(d||"").replace(/\D/g,"").slice(-10),fee=+e;
+if(a&&w.length===10&&fee>0){addS({n:esc(a),cls:esc(b||"–"),batch:esc(c||"General"),wa:w,fee});ok++}else bad++});
+save();imp=false;toast(`Imported ${ok} student${ok===1?"":"s"}${bad?`, skipped ${bad} with a missing name, number or fee`:""}`);render()}
+function stuView(){
+let h=`<div class="row" style="margin-bottom:10px"><div class="sub">${S.length} students</div><div style="display:flex;gap:8px"><button class="btn sm" onclick="fd=blank();err='';imp=false;render()">Add student</button><button class="btn ghost sm" onclick="imp=!imp;fd=null;err='';render()">Import</button></div></div>`;
+if(fd)h+=`<div class="card"><h3>${fd.id!=null?"Edit student":"New student"}</h3>${[["n","Student name","text"],["cls","Class (e.g. Class 9)","text"],["batch","Batch (e.g. Maths 5 PM)","text"],["wa","Parent WhatsApp (10 digits)","tel"],["fee","Monthly fee (₹)","number"]].map(([k,l,t])=>`<label class="sub">${l}<input type="${t}" value="${fd[k]}" oninput="fd.${k}=this.value"></label>`).join("")}${err?`<div class="chip" style="margin:6px 0">${err}</div>`:""}<div style="display:flex;gap:8px;margin-top:8px"><button class="btn" onclick="saveStu()">Save student</button><button class="btn ghost" onclick="fd=null;render()">Cancel</button></div></div>`;
+if(oldLocal.length)h+=`<div class="card"><div class="sub" style="margin-bottom:8px">This phone has ${oldLocal.length} students saved from the earlier version.</div><button class="btn full" onclick="migrate()">Move them to the shared database</button></div>`;
+if(imp)h+=`<div class="card"><div class="sub" style="margin-bottom:6px">Paste one student per line, or copy rows from a spreadsheet: name, class, batch, WhatsApp, fee</div><textarea id="csv" rows="5" placeholder="Riya Das, Class 8, Science 4 PM, 9876500010, 1200"></textarea><button class="btn full" style="margin-top:8px" onclick="doImport()">Import students</button></div>`;
+h+=S.map(s=>`<div class="card"><div class="row"><div><div class="name">${s.n}</div><div class="sub">${s.cls} · ${s.batch}</div><div class="sub">+91 ${s.wa} · ${inr(s.fee)}/month</div></div><span class="chip ${s.paid?"ok":""}">${s.paid?"Paid":"Unpaid"}</span></div><div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap"><button class="btn ghost sm" onclick="toggPaid(${s.id})">${s.paid?"Mark unpaid":"Mark fee paid"}</button><button class="btn ghost sm" onclick="editStu(${s.id})">Edit</button><button class="btn ghost sm" onclick="delStu(${s.id})">${del===s.id?"Confirm delete":"Delete"}</button></div></div>`).join("");
+if(!S.length)h+=`<div class="card">No students yet. Tap Add student, or Import many at once from a spreadsheet.</div><button class="btn ghost full" onclick="loadSample()">Load 6 sample students</button>`;
+h+=`<div class="card"><h3>Settings</h3><label class="sub">Tuition name (used in messages)<input value="${esc(CFG.centre)}" oninput="CFG.centre=this.value"></label><label class="sub">Your UPI ID (added to fee reminders)<input value="${esc(CFG.upi)}" placeholder="name@upi" oninput="CFG.upi=this.value.trim()"></label><div class="sub">Payment QR image</div>${CFG.qr?`<img src="${CFG.qr}" alt="Payment QR" style="width:120px;height:120px;object-fit:contain;background:#fff;border-radius:8px;margin:6px 0;display:block">`:""}<label class="btn ghost sm" style="margin:6px 0;cursor:pointer;display:inline-block">${CFG.qr?"Change QR image":"Choose QR image"}<input type="file" accept="image/*" style="display:none" onchange="pickQR(this.files[0])"></label><button class="btn full" onclick="saveCfg()">Save settings</button></div>`;
+h+=`<div class="card"><div class="sub" style="margin-bottom:8px">Backup keeps your students safe if you change phone.</div><div style="display:flex;gap:8px"><button class="btn ghost sm" onclick="backup()">Download backup</button><label class="btn ghost sm" style="margin:0;cursor:pointer">Restore<input type="file" accept=".json" style="display:none" onchange="restore(this.files[0])"></label></div></div>`;
+if(S.some(s=>s.sample))h+=`<button class="btn ghost full" onclick="clearSample()">Remove sample students</button>`;
+return h}
+function render(){try{history.replaceState(null,"","#"+names[tab].toLowerCase()+(tab===0&&fsec==="collect"?"-collect":""))}catch(e){}const cen=document.getElementById("cen");if(cen)cen.textContent=CFG.centre+" · "+new Date().toLocaleString("en-IN",{month:"long",year:"numeric"});if(status!=="ready"){document.getElementById("app").innerHTML=`<div class="card">${MSG[status]}</div>`;nav();return}const e=!S.length&&[1,2].includes(tab);document.getElementById("app").innerHTML=e?`<div class="card">No students yet. Add your first student on the Students tab.</div><button class="btn full" onclick="go(4)">Go to Students</button>`:rcCard()+views[tab]();nav()}
+(()=>{const p=location.hash.slice(1).split("-"),i=names.findIndex(n=>n.toLowerCase()===p[0]);if(i>-1)tab=i;if(p[1]==="collect")fsec="collect"})();
+render();
+</script>
+<script>if("serviceWorker" in navigator)addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})</script>
+</body>
+</html>
